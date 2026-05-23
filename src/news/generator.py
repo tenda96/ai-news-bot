@@ -108,7 +108,7 @@ class NewsGenerator:
     ) -> str:
         """
         Fetch real-time news and generate a digest using two-stage prompt chaining:
-        Stage 1: Analyze and select 15-20 high-quality news items
+        Stage 1: Analyze and select 5-20 high-quality news items
         Stage 2: Create detailed summaries for selected items
 
         Args:
@@ -144,7 +144,7 @@ class NewsGenerator:
             logger.info(f"Starting two-stage prompt chaining with {total_items} news items")
 
             # ============================================================
-            # STAGE 1: Selection - Analyze and select 15-20 best items
+            ## STAGE 1: Selection - Analyze and select 5-20 best items
             # ============================================================
             logger.info(f"Stage 1: Analyzing and selecting high-quality news items...")
 
@@ -168,30 +168,31 @@ class NewsGenerator:
 
             # Parse selected IDs
             json_match = re.search(r'\[[\s\S]*?\]', selection_response)
+            
             if not json_match:
                 logger.warning("Could not parse JSON from selection response, using fallback")
-                # Fallback: select first 18 items
-                selected_ids = list(news_items.keys())[:18]
+                selected_ids = list(news_items.keys())[:5]
             else:
                 try:
                     selected_ids = json.loads(json_match.group(0))
+            
                     # Validate IDs
                     selected_ids = [id for id in selected_ids if id in news_items]
-
-                # Allow the model to select between 5 and 20 items.
-                # If it selects fewer than 5, add fallback items to avoid an empty digest.
-                # If it selects more than 20, trim to 20.
-                if len(selected_ids) < 5:
-                    logger.warning(f"Only {len(selected_ids)} items selected, adding fallback items")
-                    remaining = [id for id in news_items.keys() if id not in selected_ids]
-                    selected_ids.extend(remaining[:5 - len(selected_ids)])
-                elif len(selected_ids) > 20:
-                    logger.warning(f"{len(selected_ids)} items selected, trimming to 20")
-                    selected_ids = selected_ids[:20]
-
+            
                 except json.JSONDecodeError:
                     logger.warning("JSON parse error, using fallback selection")
-                    selected_ids = list(news_items.keys())[:18]
+                    selected_ids = list(news_items.keys())[:5]
+            
+            # Allow the model to select between 5 and 20 items.
+            # If it selects fewer than 5, add fallback items to avoid an empty digest.
+            # If it selects more than 20, trim to 20.
+            if len(selected_ids) < 5:
+                logger.warning(f"Only {len(selected_ids)} items selected, adding fallback items")
+                remaining = [id for id in news_items.keys() if id not in selected_ids]
+                selected_ids.extend(remaining[:5 - len(selected_ids)])
+            elif len(selected_ids) > 20:
+                logger.warning(f"{len(selected_ids)} items selected, trimming to 20")
+                selected_ids = selected_ids[:20]
 
             logger.info(f"Stage 1 completed: Selected {len(selected_ids)} news items")
             logger.debug(f"Selected IDs: {selected_ids}")
