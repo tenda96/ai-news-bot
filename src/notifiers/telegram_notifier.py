@@ -4,6 +4,7 @@ Telegram notification module
 import os
 import json
 import html
+import time
 import requests
 from typing import Optional
 from datetime import datetime
@@ -158,6 +159,8 @@ class TelegramNotifier:
             if not self._send_single_message(header, "HTML"):
                 return False
 
+            time.sleep(1.2)
+
             success = True
 
             for idx, item in enumerate(items, start=1):
@@ -187,6 +190,8 @@ class TelegramNotifier:
                         logger.error(f"Failed to send structured news item {idx}/{len(items)}")
                         break
 
+                    time.sleep(1.2)
+
                 if not success:
                     break
 
@@ -208,14 +213,14 @@ class TelegramNotifier:
         summary = html.escape(str(item.get("summary", "")).strip())
         why = html.escape(str(item.get("why_it_matters", "")).strip())
         source_name = html.escape(str(item.get("source_name", "Fonte")).strip())
-
+    
         return (
             f"<b>{idx}. {title}</b>\n\n"
             f"🏷 <i>{category}</i>\n\n"
             f"<b>Riassunto</b>\n"
-            f"{summary}\n\n"
+            f"<i>{summary}</i>\n\n"
             f"<b>Perché è importante</b>\n"
-            f"{why}\n\n"
+            f"<i>{why}</i>\n\n"
             f"Fonte: {source_name}"
         )
 
@@ -251,6 +256,21 @@ class TelegramNotifier:
                 json=payload,
                 timeout=self.timeout
             )
+            
+            if response.status_code == 429:
+                try:
+                    retry_after = response.json().get("parameters", {}).get("retry_after", 10)
+                except ValueError:
+                    retry_after = 10
+            
+                logger.warning(f"Telegram rate limit hit. Retrying after {retry_after} seconds...")
+                time.sleep(int(retry_after) + 1)
+            
+                response = requests.post(
+                    f"{self.api_url}/sendMessage",
+                    json=payload,
+                    timeout=self.timeout
+                )
 
             response.raise_for_status()
             result = response.json()
