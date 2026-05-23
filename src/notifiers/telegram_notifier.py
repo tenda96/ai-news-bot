@@ -14,23 +14,17 @@ logger = setup_logger(__name__)
 class TelegramNotifier:
     """Send Telegram notifications with AI news digest"""
 
-    def __init__(
-        self,
-        bot_token: Optional[str] = None,
-        chat_id: Optional[str] = None,
-        timeout: int = 30
-    ):
-        """
-        Initialize TelegramNotifier.
-
-        Args:
-            bot_token: Telegram Bot API token
-            chat_id: Telegram chat ID (can be user ID, group ID, or channel ID)
-            timeout: Request timeout in seconds
-        """
-        self.bot_token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN")
-        self.chat_id = chat_id or os.getenv("TELEGRAM_CHAT_ID")
-        self.timeout = timeout
+        def __init__(
+            self,
+            bot_token: Optional[str] = None,
+            chat_id: Optional[str] = None,
+            message_thread_id: Optional[str] = None,
+            timeout: int = 30
+        ):
+            self.bot_token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN")
+            self.chat_id = chat_id or os.getenv("TELEGRAM_CHAT_ID")
+            self.message_thread_id = message_thread_id or os.getenv("TELEGRAM_MESSAGE_THREAD_ID")
+            self.timeout = timeout
 
         if self.bot_token:
             self.api_url = f"https://api.telegram.org/bot{self.bot_token}"
