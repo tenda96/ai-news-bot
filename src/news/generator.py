@@ -2,6 +2,7 @@
 AI News Generator using configurable LLM providers
 """
 from typing import List, Optional, Dict
+import os
 import json
 import re
 from ..logger import setup_logger
@@ -222,9 +223,12 @@ class NewsGenerator:
                 stage2_template = config.stage2_prompt_template
 
             # Format Stage 2 prompt with placeholders
+            private_focus = os.getenv("AI_NEWS_PRIVATE_FOCUS", "").strip()
+            
             summarization_prompt = stage2_template.format(
                 count=len(selected_ids),
-                selected_news=formatted_selected
+                selected_news=formatted_selected,
+                private_focus=private_focus
             )
 
             # Add language instruction if not English
