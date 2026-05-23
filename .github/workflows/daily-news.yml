@@ -70,6 +70,11 @@ jobs:
           # Optional: Webhook
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
+          # Optional: Telegram
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_MESSAGE_THREAD_ID: ${{ secrets.TELEGRAM_MESSAGE_THREAD_ID }}
+
           # Optional: Language (defaults to 'en' if not set)
           # Supported: en, zh, es, fr, ja, de, ko, pt, ru, ar, hi, it, nl
           # For multiple languages, separate with commas (e.g., 'en,zh,ja')
