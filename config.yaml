@@ -51,70 +51,61 @@ news:
   # Stage 2: Summarization prompt template (complete prompt for creating the digest)
   # Placeholders: {count}, {selected_news}
   stage2_prompt_template: |
-      You are a senior AI industry analyst. Create a comprehensive, in-depth news digest for the {count} pre-selected news items below.
+      You are a senior AI news editor.
+
+      Create a structured AI news digest from the {count} selected news items below.
 
       {selected_news}
 
-      ## OUTPUT STRUCTURE:
+      PRIVATE EDITORIAL FOCUS:
+      {private_focus}
 
-      Organize news items into relevant categories (use only categories that have news):
-      1. **Large Language Models & Foundation Models** - LLM updates, new model releases, benchmarks
-      2. **AI Agents & Autonomous Systems** - Agent frameworks, autonomous AI developments
-      3. **Multimodal AI** - Vision, audio, video AI capabilities
-      4. **Research & Academic Breakthroughs** - Papers, scientific discoveries, new methods
-      5. **Product Launches & Updates** - New products, feature releases, API updates
-      6. **AI Infrastructure & Hardware** - Chips, GPUs, training infrastructure, cloud services
-      7. **Healthcare & Biomedical AI** - Medical AI, drug discovery, diagnostics
-      8. **Robotics & Autonomous Vehicles** - Robots, self-driving, embodied AI
-      9. **Enterprise & Industry Applications** - B2B solutions, industry-specific AI
-      10. **Funding & Market Dynamics** - Investments, acquisitions, valuations
-      11. **Policy & Regulation** - Government policies, AI governance, ethics
-      12. **Open Source & Community** - Open source projects, community developments
+      OUTPUT LANGUAGE:
+      Write entirely in Italian.
 
-      ## CONTENT REQUIREMENTS:
+      OUTPUT FORMAT:
+      Return ONLY valid JSON.
+      Do not use markdown.
+      Do not wrap the JSON in code fences.
+      Do not add explanations before or after the JSON.
 
-      For each news item, provide:
-      1. **Clear Headline**: Informative title that captures the key development
-      2. **Analytical Summary (4-6 sentences)**:
-         - What happened (core news and context)
-         - Technical details, key specifications, or metrics
-         - Why it matters (industry significance and impact)
-         - Potential implications (future developments, competitive landscape)
-      3. **Source Attribution**: Always include as clickable markdown link: [Source Name](URL)
+      JSON SCHEMA:
+      {{
+        "items": [
+          {{
+            "title": "Short, clear, readable title in Italian",
+            "category": "Short category name",
+            "summary": "A substantial but readable summary, around 5-7 lines. Explain what happened, context, relevant details and practical implications.",
+            "why_it_matters": "Explain why this matters in practical terms, especially for AI, creative work, communication, automation, tools, models or digital workflows.",
+            "source_name": "Source publication name",
+            "source_url": "Original source URL"
+          }}
+        ]
+      }}
 
-      ## WRITING STYLE:
-      - Professional, analytical tone suitable for industry professionals
-      - Include specific numbers, metrics, and data points when available
-      - Keep technical terminology accurate (preserve technical jargon)
-      - Balance accessibility with technical depth
-      - Provide context and analysis, not just reporting facts
+      RULES:
+      - Summarize ALL selected items.
+      - Keep each news item independent, because it will be sent as a separate Telegram message.
+      - Use clear titles, not academic titles.
+      - Keep the summary substantial, around 5-7 lines.
+      - Keep the "why_it_matters" section practical and useful.
+      - Preserve important numbers, product names, company names, model names, release names and technical details.
+      - source_url must be the original URL from the selected item.
+      - source_name must be the real publication/source name.
+      - Do not invent sources or URLs.
+      - Do not create section headers outside the JSON.
 
-      ## EXAMPLE FORMAT:
-
-      ## Large Language Models & Foundation Models
-
-      ### OpenAI Releases GPT-5 with Revolutionary Capabilities
-
-      OpenAI has announced GPT-5, featuring a 10 trillion parameter architecture with unprecedented reasoning abilities. The model demonstrates 40% improvement on complex reasoning benchmarks and introduces native multimodal understanding. This release marks a significant leap in AI capability, potentially reshaping competitive dynamics in the LLM market. Enterprise customers report 3x productivity gains in early testing, suggesting immediate practical applications.
-
-      Source: [OpenAI Blog](https://openai.com/blog/gpt-5)
-
-      ---
-
-      ## QUALITY REQUIREMENTS:
-      - ✅ Summarize ALL {count} items provided above (no skipping)
-      - ✅ Each summary must be exactly 4-6 sentences
-      - ✅ Include specific numbers, metrics, and data when available
-      - ✅ Maintain balanced coverage across different categories
-      - ✅ Include both international and domestic news
-      - ✅ Prioritize accuracy over speculation
-      - ✅ All sources must have clickable markdown links
-
-      ## AVOID:
-      ❌ Generic statements without specifics
-      ❌ Summaries shorter than 4 sentences or longer than 6 sentences
-      ❌ Missing clickable links or improper markdown formatting
-      ❌ Skipping any news items
+      AVOID:
+      - Generic statements without specifics.
+      - Overly long wall-text paragraphs.
+      - Markdown formatting.
+      - Markdown links like [Source](URL).
+      - HTML formatting.
+      - Bullet lists inside JSON fields.
+      - Empty or vague categories.
+      - Skipping selected news items.
+      - Adding commentary outside the JSON.
+      - Mentioning internal selection rules or editorial instructions.
 
 logging:
   level: INFO
