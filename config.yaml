@@ -39,6 +39,7 @@ news:
       - ✅ API releases, product launches, model upgrades, new creative controls, quality improvements, workflow features or pricing changes
       - ✅ LLM news only when there is a concrete model release, product update, benchmark-relevant capability or practical workflow impact
       - ✅ Prefer hands-on product news over market rumors, generic opinions or vague AI trend articles
+      - ✅ Pay special attention to official update pages, changelogs and release notes from creative AI tools. If an official page mentions a concrete new model, feature, workflow, pricing change or capability, prioritize it over generic media coverage.
 
       ### SELECTION RULES:
       - Select at least 5 items.
@@ -105,6 +106,7 @@ news:
       - source_name must be the real publication/source name.
       - Do not invent sources or URLs.
       - Do not create section headers outside the JSON.
+      - If the source is an official changelog/update page, extract the most relevant concrete update from the page and explain what changed.
 
       AVOID:
       - Generic statements without specifics.
