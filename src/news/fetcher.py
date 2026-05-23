@@ -26,20 +26,20 @@ class NewsFetcher:
             "Wired AI": "https://www.wired.com/feed/tag/ai/latest/rss",
             "The Next Web": "https://thenextweb.com/feed",
             "The Verge AI": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
-            "Engadget AI": "https://www.engadget.com/tag/ai/rss.xml",
+            #"Engadget AI": "https://www.engadget.com/tag/ai/rss.xml",
 
             # Official AI Company Blogs
-            "OpenAI Blog": "https://openai.com/blog/rss/",
-            "Google AI Blog": "https://blog.google/technology/ai/rss/",
-            "DeepMind Blog": "https://deepmind.google/blog/rss.xml",
-            "Meta AI Blog": "https://ai.meta.com/blog/rss/",
+            #"OpenAI Blog": "https://openai.com/blog/rss/",
+            #"Google AI Blog": "https://blog.google/technology/ai/rss/",
+            #"DeepMind Blog": "https://deepmind.google/blog/rss.xml",
+            #"Meta AI Blog": "https://ai.meta.com/blog/rss/",
             "Microsoft AI Blog": "https://blogs.microsoft.com/ai/feed/",
 
             # Research & Academic
             "arXiv AI": "https://rss.arxiv.org/rss/cs.AI",
-            "arXiv Machine Learning": "https://rss.arxiv.org/rss/cs.LG",
-            "arXiv Computer Vision": "https://rss.arxiv.org/rss/cs.CV",
-            "arXiv NLP": "https://rss.arxiv.org/rss/cs.CL",
+           # "arXiv Machine Learning": "https://rss.arxiv.org/rss/cs.LG",
+           # "arXiv Computer Vision": "https://rss.arxiv.org/rss/cs.CV",
+           # "arXiv NLP": "https://rss.arxiv.org/rss/cs.CL",
 
             # Industry Verticals
             #"Healthcare IT News AI": "https://www.healthcareitnews.com/taxonomy/term/31/feed",
@@ -53,6 +53,17 @@ class NewsFetcher:
             "Google News - AI Agents Tools": "https://news.google.com/rss/search?q=%28Manus+OR+Claude+Code+OR+Cursor+OR+Devin+OR+OpenAI+agents+OR+Google+agents%29+%28AI+agent+OR+new+feature+OR+release+OR+update%29&hl=en-US&gl=US&ceid=US:en",
             "Google News - Creative AI Tools": "https://news.google.com/rss/search?q=%28Runway+OR+Kling+OR+Higgsfield+OR+Pika+OR+Luma+OR+Magnific+OR+Freepik+AI+OR+Midjourney%29+%28creator+tools+OR+generative+AI+OR+workflow+OR+new+feature%29&hl=en-US&gl=US&ceid=US:en",
             "Google News - LLM Model Releases": "https://news.google.com/rss/search?q=%28OpenAI+OR+Anthropic+OR+Google+DeepMind+OR+Meta+AI+OR+Mistral+OR+Qwen+OR+DeepSeek+xAI%29+%28new+model+OR+model+release+OR+LLM+release+OR+API+release+OR+benchmark%29&hl=en-US&gl=US&ceid=US:en",
+        }
+
+        self.official_update_pages = {
+            "Kling Release History": "https://kling.ai/release-note/release-history",
+            "Runway Changelog": "https://runwayml.com/changelog",
+            "Higgsfield Fresh Releases": "https://higgsfield.ai/blog/Fresh-Releases",
+            "Higgsfield Blog": "https://higgsfield.ai/blog",
+            "Magnific Product Updates": "https://www.magnific.com/blog/category/product-updates/",
+            "Manus Blog": "https://manus.im/blog",
+            "Luma Changelog": "https://lumalabs.ai/news",
+            "Google News": "https://blog.google/innovation-and-ai/products/",
         }
 
         # Chinese AI news sources (zh)
