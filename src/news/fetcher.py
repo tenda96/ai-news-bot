@@ -2,6 +2,7 @@
 News fetcher module - Fetches real-time AI news from various sources
 """
 import requests
+import re
 from typing import List, Dict, Optional
 from datetime import datetime
 import xml.etree.ElementTree as ET
@@ -265,9 +266,58 @@ class NewsFetcher:
 
     def _clean_html(self, text: str) -> str:
         """Remove HTML tags from text"""
-        import re
         clean = re.compile('<.*?>')
         return re.sub(clean, '', text).strip()
+
+    def fetch_web_page(self, page_name: str, page_url: str) -> List[Dict[str, str]]:
+        """
+        Fetch a non-RSS web page and convert it into one news-like item.
+        Useful for official changelog/update pages that do not expose RSS.
+        """
+        try:
+            logger.info(f"Fetching web update page: {page_url}")
+
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            }
+
+            response = requests.get(page_url, headers=headers, timeout=15)
+            response.raise_for_status()
+
+            html_text = response.text
+
+            title_match = re.search(r"<title[^>]*>(.*?)</title>", html_text, re.IGNORECASE | re.DOTALL)
+            page_title = title_match.group(1).strip() if title_match else page_name
+
+            # Remove scripts/styles
+            html_text = re.sub(r"<script[\s\S]*?</script>", " ", html_text, flags=re.IGNORECASE)
+            html_text = re.sub(r"<style[\s\S]*?</style>", " ", html_text, flags=re.IGNORECASE)
+
+            # Convert HTML to rough text
+            text = re.sub(r"<[^>]+>", " ", html_text)
+            text = self._clean_html(text)
+            text = re.sub(r"\s+", " ", text).strip()
+
+            if not text:
+                logger.warning(f"No readable text extracted from web page: {page_url}")
+                return []
+
+            description = text[:2500]
+
+            item = {
+                "title": page_title,
+                "link": page_url,
+                "description": description,
+                "published": datetime.utcnow().strftime("%Y-%m-%d"),
+                "source": page_name,
+            }
+
+            logger.info(f"Fetched web update page: {page_name}")
+            return [item]
+
+        except Exception as e:
+            logger.error(f"Failed to fetch web update page {page_url}: {str(e)}")
+            return []
 
     def fetch_recent_news(
         self,
@@ -297,6 +347,13 @@ class NewsFetcher:
             for item in items:
                 item['source'] = source_name
                 all_news['international'].append(item)
+
+        # Fetch official non-RSS update/changelog pages
+        for source_name, page_url in self.official_update_pages.items():
+            items = self.fetch_web_page(source_name, page_url)
+            for item in items:
+                item["source"] = source_name
+                all_news["international"].append(item)
 
         # Fetch domestic news based on language
         language_feeds_map = {
