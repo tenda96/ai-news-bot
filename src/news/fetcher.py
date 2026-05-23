@@ -42,9 +42,17 @@ class NewsFetcher:
             "arXiv NLP": "https://rss.arxiv.org/rss/cs.CL",
 
             # Industry Verticals
-            "Healthcare IT News AI": "https://www.healthcareitnews.com/taxonomy/term/31/feed",
-            "Robotics Business Review": "https://www.roboticsbusinessreview.com/feed/",
-            "Autonomous Vehicle News": "https://www.autonomousvehicleinternational.com/feed",
+            #"Healthcare IT News AI": "https://www.healthcareitnews.com/taxonomy/term/31/feed",
+            #"Robotics Business Review": "https://www.roboticsbusinessreview.com/feed/",
+            #"Autonomous Vehicle News": "https://www.autonomousvehicleinternational.com/feed",
+            # Generative AI / Creative AI / Model Updates
+
+            # Generative AI / Creative AI / Model Updates
+            "Google News - AI Video Models": "https://news.google.com/rss/search?q=%28Kling+OR+Runway+OR+Pika+OR+Luma+OR+Veo+OR+Sora+OR+Higgsfield+OR+Seedance%29+%28AI+video+OR+model+update+OR+new+model+OR+release%29&hl=en-US&gl=US&ceid=US:en",
+            "Google News - AI Image Models": "https://news.google.com/rss/search?q=%28Midjourney+OR+Magnific+OR+Freepik+OR+Ideogram+OR+Recraft+OR+FLUX+OR+Firefly%29+%28AI+image+OR+model+update+OR+new+feature+OR+release%29&hl=en-US&gl=US&ceid=US:en",
+            "Google News - AI Agents Tools": "https://news.google.com/rss/search?q=%28Manus+OR+Claude+Code+OR+Cursor+OR+Devin+OR+OpenAI+agents+OR+Google+agents%29+%28AI+agent+OR+new+feature+OR+release+OR+update%29&hl=en-US&gl=US&ceid=US:en",
+            "Google News - Creative AI Tools": "https://news.google.com/rss/search?q=%28Runway+OR+Kling+OR+Higgsfield+OR+Pika+OR+Luma+OR+Magnific+OR+Freepik+AI+OR+Midjourney%29+%28creator+tools+OR+generative+AI+OR+workflow+OR+new+feature%29&hl=en-US&gl=US&ceid=US:en",
+            "Google News - LLM Model Releases": "https://news.google.com/rss/search?q=%28OpenAI+OR+Anthropic+OR+Google+DeepMind+OR+Meta+AI+OR+Mistral+OR+Qwen+OR+DeepSeek+xAI%29+%28new+model+OR+model+release+OR+LLM+release+OR+API+release+OR+benchmark%29&hl=en-US&gl=US&ceid=US:en",
         }
 
         # Chinese AI news sources (zh)
@@ -136,6 +144,7 @@ class NewsFetcher:
             "Tom's Hardware IT": "https://www.tomshw.it/feed",
             "Wired Italia": "https://www.wired.it/feed/rss",
             # Google News
+            "Google News AI Creativa (IT)": "https://news.google.com/rss/search?q=%28Kling+OR+Runway+OR+Pika+OR+Luma+OR+Veo+OR+Sora+OR+Higgsfield+OR+Magnific+OR+Midjourney+OR+Freepik%29+%28AI+video+OR+immagini+AI+OR+nuovo+modello+OR+aggiornamento+OR+generative+AI%29&hl=it&gl=IT&ceid=IT:it",
             "Google News AI (IT)": "https://news.google.com/rss/search?q=intelligenza+artificiale&hl=it&gl=IT&ceid=IT:it",
         }
 
