@@ -14,23 +14,23 @@ logger = setup_logger(__name__)
 class TelegramNotifier:
     """Send Telegram notifications with AI news digest"""
 
-        def __init__(
-            self,
-            bot_token: Optional[str] = None,
-            chat_id: Optional[str] = None,
-            message_thread_id: Optional[str] = None,
-            timeout: int = 30
-        ):
-            self.bot_token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN")
-            self.chat_id = chat_id or os.getenv("TELEGRAM_CHAT_ID")
-            self.message_thread_id = message_thread_id or os.getenv("TELEGRAM_MESSAGE_THREAD_ID")
-            self.timeout = timeout
+    def __init__(
+        self,
+        bot_token: Optional[str] = None,
+        chat_id: Optional[str] = None,
+        message_thread_id: Optional[str] = None,
+        timeout: int = 30
+    ):
+        self.bot_token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN")
+        self.chat_id = chat_id or os.getenv("TELEGRAM_CHAT_ID")
+        self.message_thread_id = message_thread_id or os.getenv("TELEGRAM_MESSAGE_THREAD_ID")
+        self.timeout = timeout
 
         if self.bot_token:
             self.api_url = f"https://api.telegram.org/bot{self.bot_token}"
         else:
             self.api_url = None
-
+    
         if not self.bot_token or not self.chat_id:
             logger.warning("Telegram bot token or chat ID not configured")
         else:
@@ -118,6 +118,13 @@ class TelegramNotifier:
                 "parse_mode": parse_mode,
                 "disable_web_page_preview": True
             }
+
+            if self.message_thread_id:
+                try:
+                    payload["message_thread_id"] = int(self.message_thread_id)
+                except ValueError:
+                    logger.error("Invalid TELEGRAM_MESSAGE_THREAD_ID: must be an integer")
+                    return False
 
             response = requests.post(
                 f"{self.api_url}/sendMessage",
