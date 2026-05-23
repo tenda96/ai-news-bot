@@ -6,7 +6,7 @@ llm:
   # Gemini: Fast, multimodal, free tier available
   # Grok: Advanced reasoning, real-time data
   # OpenAI: Industry standard, latest models
-  provider: claude
+  provider: gemini
 
   # Optional: Specify a model (if not set, uses provider's default)
   # Claude models: claude-sonnet-4-5-20250929, claude-3-5-sonnet-20241022
@@ -29,24 +29,31 @@ news:
 
       ## YOUR TASK - STAGE 1: NEWS SELECTION
 
-      You are a senior AI industry analyst. Analyze the {total_items} news items above and select exactly 15-20 of the highest-quality items.
+      You are a senior AI industry analyst. Analyze the {total_items} news items above and select between 5 and 20 of the highest-quality items.
 
       ### SELECTION CRITERIA:
-      - ✅ Groundbreaking research or technical breakthroughs
-      - ✅ Major product launches or significant updates
-      - ✅ Important policy changes or regulations
-      - ✅ Large funding rounds or M&A activities
-      - ✅ Balanced coverage across categories (LLM, Agents, Research, Products, etc.)
-      - ✅ Include both international and domestic news when available
-      - ✅ Prefer primary sources over secondary reporting
+      - ✅ Major AI product launches or significant updates
+      - ✅ Useful AI tools, agents, workflows, models or APIs
+      - ✅ Important AI image, video, audio or multimodal developments
+      - ✅ Relevant automation, marketing, communication or creative workflow news
+      - ✅ Important policy, market or infrastructure news only if truly relevant
+      - ✅ Include both international and domestic news when valuable
+      - ✅ Prefer practical impact over generic hype
+
+      ### SELECTION RULES:
+      - Select at least 5 items.
+      - Select up to 20 items only if they are genuinely important.
+      - Do not force weak news just to reach a high number.
+      - It is acceptable to select 5-8 items if the day is quiet.
+      - Prefer quality over quantity.
 
       ### OUTPUT FORMAT:
       Return ONLY a JSON array of selected news IDs. No explanations, no markdown, just the JSON array.
 
       Example format:
-      ["INT-1", "INT-5", "DOM-2", "INT-12", ...]
+      ["INT-1", "INT-5", "DOM-2", "INT-12"]
 
-      CRITICAL: Select exactly 15-20 items. No more, no less.
+      CRITICAL: Select between 5 and 20 items.
 
   # Stage 2: Summarization prompt template (complete prompt for creating the digest)
   # Placeholders: {count}, {selected_news}
