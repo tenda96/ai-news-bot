@@ -178,14 +178,16 @@ class NewsGenerator:
                     # Validate IDs
                     selected_ids = [id for id in selected_ids if id in news_items]
 
-                    # Ensure we have 15-20 items
-                    if len(selected_ids) < 15:
-                        logger.warning(f"Only {len(selected_ids)} items selected, adding more")
-                        remaining = [id for id in news_items.keys() if id not in selected_ids]
-                        selected_ids.extend(remaining[:18 - len(selected_ids)])
-                    elif len(selected_ids) > 20:
-                        logger.warning(f"{len(selected_ids)} items selected, trimming to 20")
-                        selected_ids = selected_ids[:20]
+                # Allow the model to select between 5 and 20 items.
+                # If it selects fewer than 5, add fallback items to avoid an empty digest.
+                # If it selects more than 20, trim to 20.
+                if len(selected_ids) < 5:
+                    logger.warning(f"Only {len(selected_ids)} items selected, adding fallback items")
+                    remaining = [id for id in news_items.keys() if id not in selected_ids]
+                    selected_ids.extend(remaining[:5 - len(selected_ids)])
+                elif len(selected_ids) > 20:
+                    logger.warning(f"{len(selected_ids)} items selected, trimming to 20")
+                    selected_ids = selected_ids[:20]
 
                 except json.JSONDecodeError:
                     logger.warning("JSON parse error, using fallback selection")
