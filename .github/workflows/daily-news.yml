@@ -75,6 +75,8 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_MESSAGE_THREAD_ID: ${{ secrets.TELEGRAM_MESSAGE_THREAD_ID }}
 
+          AI_NEWS_PRIVATE_FOCUS: ${{ secrets.AI_NEWS_PRIVATE_FOCUS }}
+
           # Optional: Language (defaults to 'en' if not set)
           # Supported: en, zh, es, fr, ja, de, ko, pt, ru, ar, hi, it, nl
           # For multiple languages, separate with commas (e.g., 'en,zh,ja')
